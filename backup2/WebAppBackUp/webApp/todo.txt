@@ -1,0 +1,3 @@
+1. Look at the cart at small screens;
+2. when cart is clicked we want to hide everything and display only the cart;
+3. check out the cart;
