@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+    box-sizing: border-box;
+}
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #008dc0;
+}
+.container{
+    /* background: #eaeaea; */
+    margin:0 40px;
+    display: flex;
+    max-width: 600px;
+    flex-direction: column;
+    gap: 20px;
+}
+.tab{
+    position: relative;
+    background: #00578e;
+    padding: 0 20px 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 5);
+    border-radius: 5px;
+    overflow: hidden;
+
+
+}
+.tab input{
+    appearance: none;
+}
+.tab label{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.tab label::after{
+    content: '+';
+    position: absolute;
+    right: 20px;
+    font-size: 2em;
+    color: rgba(0, 0 , 0, 0.1);
+    transition: transform 1s;
+
+}
+.tab:hover label::after{
+color: #333;
+}
+.tab input:checked ~ label::after{
+    transform: rotate(135deg);
+}
+.tab label h2{
+    background: #333;
+    color: #fff;
+    width: 40px;
+    margin-right: 10px;
+    border-radius:3px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 1.25em;
+    border-radius: 5px;
+    justify-content: center;
+}
+.tab label h3{
+    position: relative;
+    font-weight: 500;
+    z-index: 10;
+
+}
+.content{
+    max-height: 0;
+    transition:all  0.1s;
+    overflow: hidden;
+    background: rgb(43, 137, 226);
+}
+.tab input:checked ~ .content{
+    max-height: 100vh;
+}

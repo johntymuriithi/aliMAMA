@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="app.css" type="text/css">
     <title>Online Shopping</title>
 </head>
 <body>
@@ -30,7 +30,7 @@
                         <p>Account</p>
                         <div class="accountDropdown">
                             <button class="helpBtn">Help</button>
-                            <button class="logOutBtn">LogOut</button>
+                            <a href="logout.php"><button class="logOutBtn">LogOut</button></a>
                         </div>
                     </div>
                     <!-- <button class="logOutBtn">account</button> -->
@@ -78,16 +78,22 @@
                         <h3>Customer Details</h3>
                     </div>
                     <ul>
-                        <li><h5>Name: John</h5></li>
-                        <li><h5>Email: email@gmail.com</h5></li>
-                        <li>
-                            <label>Location:</label>
-                            <input class="locationCustomer" type="text" placeholder="enter your location" required></li>
-                        <li><h5>Order Code: 45CA3400#</h5></li>
+                        <?php
+                        session_start();
+                        if (isset($_SESSION["user_id"])) {
+                            // User is logged in, display their details
+                            echo '<li><h5>Name: ' . $_SESSION["username"] . '</h5></li>';
+                            // You can fetch and display other details like email if needed
+                            echo '<li><h5>Email: ' . $_SESSION["email"] . '</h5></li>';
+                            echo '<li><label>Location:</label>';
+                            echo '<input class="locationCustomer" type="text" placeholder="enter your location" required></li>';
+                            echo '<li><h5>Order Code: 45CA3400#</h5></li>';
+                        }
+                        ?>
                     </ul>
                 </div>
                 <div class="orderBtn">
-                    <button>CheckOut</button>
+                    <button onclick={submitOrder()}>CheckOut</button>
                 </div>
             </div>
         </div>
@@ -96,7 +102,8 @@
     <main class="mainPager">
         <!-- carousel here -->
         <section class="carouselSection">
-            <div class="caru"></div>
+            <div class="caru">
+            </div>
         </section>
         <!-- Links pages -->
         <div class="pagesProducts">

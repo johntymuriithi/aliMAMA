@@ -111,3 +111,7 @@ form p a{
     word-wrap: none;
 
 }
+form:is(a) {
+    text-decoration-line: underline;
+    text-decoration-color: darkred;
+}

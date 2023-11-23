@@ -398,7 +398,7 @@ input[type='search']::placeholder{
     background: linear-gradient(
         to right, rgba(48, 48, 116, 0.9), rgba(60, 5, 67, 0.6));
     backdrop-filter: blur(2rem);
-    transition: all 2s linear;
+    overflow: hidden;
 }
 .store{
     width: 85%;
@@ -573,3 +573,48 @@ input[type='search']::placeholder{
     transition: 0.5s;
     font-size: 1.5rem;
 }
+
+/* manuu here */
+/* .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; 
+    margin: auto;
+  } */
+
+  .carousel-image {
+    display: none;
+    width:100%;
+    object-fit: cover;
+    height:40vh;
+    filter: brightness(0.9);
+  }
+
+  .fadee {
+    animation-name: fadee;
+    animation-duration: 1.5s;
+  }
+  
+  @keyframes fadee {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  /* .dot-container {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+
+  .dot.active {
+    background-color: purple;
+  } */

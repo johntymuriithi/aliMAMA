@@ -14,6 +14,9 @@ const allPickedItems = document.querySelector('.allPickedItems');
 const totalByCount = document.querySelector('.totalByCount');
 const totalByCash = document.querySelector('.totalByCash');
 
+const carousel = document.querySelector('.caru');
+
+
 
 // cart
 let ourCart = [];
@@ -102,6 +105,7 @@ class UI {
   display(data) {
 
     let {productsByCategory, categories, thumbNails} = this.getProductByCategory(data);
+    this.thumbNail(thumbNails);
 
     // list categories
     let ul = document.createElement('ul')
@@ -115,9 +119,13 @@ class UI {
     storeList.appendChild(ul);
 
     let products = this.getProducts(productsByCategory);
-    let {smartphones, laptops, fragrances, skincare, groceries} = products;
-    let storeNames = ['smartphones', 'laptops', 'fragrances', 'skincare', 'groceries'];
-    let storeData = [smartphones, laptops, fragrances, skincare, groceries];
+    let {smartphones, laptops, fragrances, skincare, groceries, ...home} = products;
+    let homie = {}
+    for (const key in home) {
+      homie = home[key]
+    }
+    let storeNames = ['smartphones', 'laptops', 'fragrances', 'skincare', 'groceries', 'homie'];
+    let storeData = [smartphones, laptops, fragrances, skincare, groceries, homie];
     for (let i = 0; i < storeNames.length; i++)
     {
       this.displayDa(storeData[i], i);
@@ -126,6 +134,24 @@ class UI {
     for (let key of storeData) {
       combinedItems = [...combinedItems,...key];
     }
+  }
+
+  thumbNail(thumbNails) {
+    console.log(thumbNails)
+    let ourPics = [];
+
+    for (const key in thumbNails) {
+      let arr = thumbNails[key];
+      for (const index of arr) {
+        ourPics.push(index)
+      }
+    }
+    ourPics.forEach((item) => {
+      let pic = `<img class="carousel-image fadeeg" src="${item}" alt="Image 1">`;
+      carousel.innerHTML += pic;
+    })
+
+    
   }
 
   displayDa(data, index) {
@@ -351,6 +377,99 @@ function displayProducts(index) {
   }
 }
 
+// oders
+function submitOrder() {
+  console.log(ourCart);
+
+  // Create an array to store each product's data
+  let productsData = [];
+
+  for (let key of ourCart) {
+      var { title, price, amount } = key;
+
+      // Add each product's data to the array
+      productsData = {
+          title: title,
+          price: price,
+          amount: amount,
+      }
+      console.log(productsData)
+      // Send the array as JSON in the request body
+      fetch('orderNow.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json', // Use JSON content type
+              'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token
+          },
+          body: JSON.stringify(productsData)  // Convert array to JSON string
+      })
+          .then(response => console.log(response.json()))
+          .then(data => {
+              // Handle the response from the server
+              if (data.status === 'success') {
+                header("Location: app.php"); // Redirect to dashboard or another authenticated page
+                exit();
+              } else {
+                  alert('Failed to place the order: ' + data.message);
+              }
+          })
+          .catch(error => {
+              console.error('Error placing the order:', error);
+          });
+    
+          function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === name + '=') {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+
+  }
+  
+};
+
+
+
+// manuu staff here done a good work though
+function setCarousel() {
+  let currentImageIndex = 0;
+  const images = document.querySelectorAll('.carousel-image');
+
+  function showImage(index) {
+    images.forEach((image) => image.style.display = 'none');
+
+    images[index].style.display = 'block';
+  }
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    showImage(currentImageIndex);
+  }
+  function startCarousel() {
+    setInterval(nextImage, 4000);
+  }
+  showImage(currentImageIndex);
+  startCarousel();
+}
+
+
+  
+
+
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     let products = new Products();
@@ -358,9 +477,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     let result = await products.getData();
     ui.display(result);
 
-    displayProducts();
+    displayProducts(0);
+
     ui.getProductsButtons();
     ui.cartLogic();
+    setCarousel();
   } catch (error) {
     // document.body.innerHTML = `<h1>Lol! Failed to load page,,No Network,,,GO TO SLEEP</h1>`
     console.log('Error occur while getting the Products', error)

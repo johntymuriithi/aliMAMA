@@ -1,0 +1,89 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    <!-- .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px; /* Adjust as needed */
+      margin: auto;
+    }
+
+    .carousel-image {
+      display: none;
+      width:400px ;
+      object-fit:cover;
+      height:250px;
+    }
+
+    .dot-container {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+
+    .dot.active {
+      background-color: purple;
+    } -->
+  </style>
+</head>
+<body>
+
+<!-- <div class="carousel-container">
+  <img class="carousel-image" src="houses.jpg" alt="Image 1">
+  <img class="carousel-image" src="motobike2.jpg" alt="Image 2">
+  <img class="carousel-image" src="car.jpg" alt="Image 3">
+  <img class="carousel-image" src="land.jpg" alt="Image 1">
+  <img class="carousel-image" src="hardware.jpg" alt="Image 2">
+  <img class="carousel-image" src="cars.jpg" alt="Image 3">
+
+  <div class="dot-container">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</div> -->
+
+<script>
+  let currentImageIndex = 0;
+  const images = document.querySelectorAll('.carousel-image');
+  const dots = document.querySelectorAll('.dot');
+
+  function showImage(index) {
+    images.forEach((image) => image.style.display = 'none');
+    dots.forEach((dot) => dot.classList.remove('active'));
+
+    images[index].style.display = 'block';
+    dots[index].classList.add('active');
+  }
+
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    showImage(currentImageIndex);
+  }
+
+  function startCarousel() {
+    setInterval(nextImage, 2000);
+  }
+
+  showImage(currentImageIndex);
+  startCarousel();
+</script>
+
+</body>
+</html>
