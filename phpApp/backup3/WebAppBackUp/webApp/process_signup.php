@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
     $name = $_POST["name"];
@@ -7,11 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    echo $hashed_password;
+
     // Connect to the database
     $servername = "localhost";
     $username = "root"; // Replace with your database username 
-    $password_db = "mwangijohn.1"; // Replace with your database password
+    $password_db = ""; // Replace with your database password
     $database = "webapp"; // Replace with your database name
 
     $conn = new mysqli($servername, $username, $password_db, $database);
@@ -21,28 +23,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Insert data into the database with hashed password
-    $sql = "INSERT INTO users (username, email, password) VALUES ('$name', '$email', '$hashed_password')";
+    // Check if email already exists
+    $check_email_sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $conn->query($check_email_sql);
 
-    
+    if ($result->num_rows > 0) {
+        // Email already exists, redirect to exists.html
+        header("Location: exists.html");
+        exit();
+    }
 
-    if ($conn->query($sql) === TRUE) {
-        $subject = "Welcome to Your Website";
-    $message = "Dear $name,\n\nThank you for registering on Your Website!";
-    $headers = "muriithijohn634@gmail.com";  // Change this to your email
+    // Email doesn't exist, proceed with the registration
+    $insert_sql = "INSERT INTO users (username, email, password) VALUES ('$name', '$email', '$hashed_password')";
 
-    // Use the mail() function to send the email
-    mail($email, $subject, $message, $headers);
-
-    echo "Registration successful. An email has been sent to $email.";
+    if ($conn->query($insert_sql) === TRUE) {
+        $_SESSION["username"] = $name;
+        $_SESSION["email"] = $email;
         header("Location: app.php"); // Redirect to dashboard or another authenticated page
-            exit();
+        exit();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $insert_sql . "<br>" . $conn->error;
     }
 
     $conn->close();
 }
 ?>
+
 
 

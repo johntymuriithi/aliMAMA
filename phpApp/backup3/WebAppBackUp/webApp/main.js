@@ -249,6 +249,7 @@ class UI {
       button.addEventListener('click', (event) => {
       event.target.innerText = 'In Cart';
       event.target.disabled = true;
+      event.target.classList.add('btnActive');
           // get product from combinedItems
       let cartItem = {...combinedItems.find(item => item.id == id), amount: 1};
       // call the toaster function with the title
@@ -343,7 +344,7 @@ class UI {
     while (allPickedItems.children.length > 0) {
       allPickedItems.removeChild(allPickedItems.children[0])
     }
-    cartOverLay.setAttribute('id', 'layer');
+    // cartOverLay.setAttribute('id', 'layer');
   }
 
   removeItem(id) {
@@ -353,6 +354,7 @@ class UI {
     let button = this.getButtons(id);
     button.disabled = false;
     button.innerText = 'Add to Cart';
+    button.classList.remove('btnActive');
   }
 
   getButtons(id) {
@@ -380,8 +382,24 @@ function displayProducts(index) {
 // oders
 function submitOrder() {
   console.log(ourCart);
-
-  // Create an array to store each product's data
+  let value = document.querySelector('.locationCustomer');
+  if (value.value !== "" && isNaN(Number(value.value))) {
+    // cartOverLay.style.opacity = 0.1;
+    let loder = document.querySelector('.loaderCont');
+    loder.style.visibility = 'visible';
+    setTimeout(() => {
+      loder.innerHTML = '<h1 class="loadHead">Orders Made Successifully!</h1>'
+      let orderss = document.querySelector('.customersLists');
+    let li = document.createElement('li');
+    li.setAttribute('class', 'orderCode');
+    li.innerHTML = '<h5><label>Order Code:</label> 45CA3400#</h5>'    
+    orderss.appendChild(li)
+      setTimeout(() => {
+        loder.style.visibility = 'hidden';
+        // cartOverLay.style.opacity = 1.0;
+      }, 2000);
+    }, 5000)
+       // Create an array to store each product's data
   let productsData = [];
 
   for (let key of ourCart) {
@@ -392,6 +410,7 @@ function submitOrder() {
           title: title,
           price: price,
           amount: amount,
+          location: value.value
       }
       console.log(productsData)
       // Send the array as JSON in the request body
@@ -433,7 +452,11 @@ function submitOrder() {
           }
 
   }
-  
+  value.value = ""
+  } else {
+    value.placeholder = "Invalid or Empty Input here"
+  }
+ 
 };
 
 
@@ -460,16 +483,6 @@ function setCarousel() {
 }
 
 
-  
-
-
-
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     let products = new Products();
@@ -482,6 +495,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     ui.getProductsButtons();
     ui.cartLogic();
     setCarousel();
+    // let loder = document.querySelector('.loaderCont');
+    // loder.style.visibility = 'hidden';
   } catch (error) {
     // document.body.innerHTML = `<h1>Lol! Failed to load page,,No Network,,,GO TO SLEEP</h1>`
     console.log('Error occur while getting the Products', error)

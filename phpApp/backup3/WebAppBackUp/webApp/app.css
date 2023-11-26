@@ -194,16 +194,25 @@ main {
     text-decoration-line: underline;
 }
 .locationCustomer {
+    background-color: #9ba1b9;
     outline: 0;
     padding: 6px;
     border-radius: 7px;
     border: none;
 }
+.locationCustomer::placeholder {
+    color: rgb(214, 23, 23);
+}
+.username {
+    color: #3c00a0;;
+}
 .customerDetails {
     padding: 5px;
 }
-.customerDetails ul li{
+.customerDetails :is(label) {
     color: #3c00a0;;
+}
+.customerDetails ul li{
     font-size: larger;
     padding: 10px;
     list-style: none;
@@ -564,6 +573,14 @@ input[type='search']::placeholder{
     margin: 10px;
     background-color: rgb(33, 75, 75);
     color: white;
+    cursor: pointer;
+    transition: 1s;
+}
+.addToCartBtn:hover {
+    transform: scaleX(2);
+}
+.btnActive {
+    border: 2px solid red;
 }
 .activo {
     display: none;
@@ -599,22 +616,48 @@ input[type='search']::placeholder{
     from {opacity: .4} 
     to {opacity: 1}
   }
-
-  /* .dot-container {
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  .dot {
-    height: 15px;
-    width: 15px;
-    margin: 0 5px;
-    background-color: #bbb;
+  
+  .loader {
+    background-color: #18063a;
+    border: 16px solid #f3f3f3;
     border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    border-left: 16px solid pink;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 0.7s linear infinite;
+    margin: auto;
   }
-
-  .dot.active {
-    background-color: purple;
-  } */
+  .loaderCont {
+    position: fixed;
+    border-radius: 20px;
+    top: 30%;
+    left: 30%;
+    width: 30%;
+    height: 20rem;
+    background-color: #254661;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    z-index: 200;
+    text-align: center;
+  }
+  .loaderCont :is(h1) {
+    margin-bottom: 20px;
+    color: rgb(184, 224, 211);
+  }
+  .loadHead {
+    color: rgb(184, 224, 211);
+  }
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

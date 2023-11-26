@@ -16,11 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["user_id"])) {
         $product_name = $order_details->title;
         $amount = $order_details->amount;
         $price = $order_details->price;
+        $location = $order_details->location;
 
         // Connect to your database (use your database credentials)
         $servername = "localhost";
         $username = "root";
-        $password = "mwangijohn.1";
+        $password = "";
         $database = "webapp";
 
         $conn = new mysqli($servername, $username, $password, $database);
@@ -30,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["user_id"])) {
         }
 
         // Insert the order into the database
-        $sql = "INSERT INTO orders (user_id, product_name, amount, price) VALUES ('$user_id', '$product_name', '$amount', '$price')";
+        $sql = "INSERT INTO orders (user_id, product_name, amount, price, location) VALUES ('$user_id', '$product_name', '$amount', '$price', '$location')";
 
         if ($conn->query($sql) === TRUE) {
             // Send a JSON response for success

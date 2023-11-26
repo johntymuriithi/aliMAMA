@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +12,10 @@
     <title>Online Shopping</title>
 </head>
 <body>
+    <div class="loaderCont" style="visibility: hidden;">
+        <div class="loader"></div>
+        <h1 class="loderHeadr">Making the orders....</h1>
+    </div>
     <div id="toastCard">
         <h4><span class="Toastii"></span> have been Succesifully 
             been Added to Cart. <span class="congrats">Congratulations!</span></h4>
@@ -19,17 +26,23 @@
             <div class="mainLogo">
                 <img src="images/logo4.jpg" alt="company's main logo">
             </div>
-            <div class="searchInput">
+            <!-- <div class="searchInput">
                 <input type="search" placeholder="Search Products...">
-            </div>
+            </div> -->
             <div class="links">
                 <div class="accounts">
                     <!-- we shall consider this server staff -->
                     <div class="user">
                         <i class="fa fa-user-circle-o"></i>
-                        <p>Account</p>
+                       
+                        <?php
+                        if (isset($_SESSION["user_id"])) {
+                            echo '<p>' . $_SESSION["username"] . '</p>';
+                        }
+                        ?>
+                        
                         <div class="accountDropdown">
-                            <button class="helpBtn">Help</button>
+                            <a href="help.html"><button class="helpBtn">Help</button></a>
                             <a href="logout.php"><button class="logOutBtn">LogOut</button></a>
                         </div>
                     </div>
@@ -77,17 +90,16 @@
                     <div class="customer">
                         <h3>Customer Details</h3>
                     </div>
-                    <ul>
+                    <ul class="customersLists">
                         <?php
-                        session_start();
+                        
                         if (isset($_SESSION["user_id"])) {
                             // User is logged in, display their details
-                            echo '<li><h5>Name: ' . $_SESSION["username"] . '</h5></li>';
+                            echo '<li><h5><span class="username">Name:</span> ' . $_SESSION["username"] . '</h5></li>';
                             // You can fetch and display other details like email if needed
-                            echo '<li><h5>Email: ' . $_SESSION["email"] . '</h5></li>';
+                            echo '<li ><h5><span class="username">Email:</span> ' . $_SESSION["email"] . '</h5></li>';
                             echo '<li><label>Location:</label>';
                             echo '<input class="locationCustomer" type="text" placeholder="enter your location" required></li>';
-                            echo '<li><h5>Order Code: 45CA3400#</h5></li>';
                         }
                         ?>
                     </ul>

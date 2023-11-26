@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connect to the database
     $servername = "localhost";
     $db_username = "root";
-    $db_password = "mwangijohn.1";
+    $db_password = "";
     $database = "webapp";
 
     $conn = new mysqli($servername, $db_username, $db_password, $database);
@@ -21,12 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate user credentials
     $sql = "SELECT * FROM users WHERE email = '$username'";
-    echo $sql;
 
     $result = $conn->query($sql);
-
-    print_r($result);
-    
 
     if ($result->num_rows > 0) {
         // User found, check the password
@@ -43,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             // Invalid password, show an error message
+            header("Location: wrong.html");
             echo "Invalid password";
         }
     } else {
